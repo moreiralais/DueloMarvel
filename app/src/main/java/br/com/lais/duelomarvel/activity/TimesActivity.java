@@ -20,7 +20,7 @@ import br.com.lais.duelomarvel.adapter.ListaAdapter;
 import br.com.lais.duelomarvel.listener.RecyclerViewOnClickListener;
 import br.com.lais.duelomarvel.modelo.ResultsResponse;
 
-public class TimesActivity extends AppCompatActivity implements RecyclerViewOnClickListener {
+public class TimesActivity extends AppCompatActivity {
 
     private ListaAdapter listaAdapter;
     private RecyclerView recyclerViewUm;
@@ -51,12 +51,27 @@ public class TimesActivity extends AppCompatActivity implements RecyclerViewOnCl
 
         ArrayList<ResultsResponse> listaum = null;
         listaAdapter = new ListaAdapter(getApplicationContext(),listaum);
-        listaAdapter.setRecyclerViewOnClickListener(TimesActivity.this);
+        listaAdapter.setRecyclerViewOnClickListener(new RecyclerViewOnClickListener() {
+            @Override
+            public void onClickListener(View view, int posicao) {
+
+                int itemPosition = recyclerViewUm.getChildLayoutPosition(view);
+                ResultsResponse item = data.get(itemPosition);
+
+                //TODO inserir item clicado na lista, calcular nivel poder salvar dados no banco exibir vencedoes com descricao e foto
+
+            }
+        });
         recyclerViewUm.setAdapter(listaAdapter);
 
         ArrayList<ResultsResponse> listadois = null;
         listaAdapter = new ListaAdapter(getApplicationContext(),listadois);
-        listaAdapter.setRecyclerViewOnClickListener(TimesActivity.this);
+        listaAdapter.setRecyclerViewOnClickListener(new RecyclerViewOnClickListener() {
+            @Override
+            public void onClickListener(View view, int posicao) {
+
+            }
+        });
         recyclerViewDois.setAdapter(listaAdapter);
 
 
@@ -71,13 +86,5 @@ public class TimesActivity extends AppCompatActivity implements RecyclerViewOnCl
         });
     }
 
-    @Override
-    public void onClickListener(View view, int posicao) {
 
-        int itemPosition = recyclerViewUm.getChildLayoutPosition(view);
-        ResultsResponse item = data.get(itemPosition);
-
-        //TODO inserir item clicado na lista, calcular nivel poder salvar dados no banco exibir vencedoes com descricao e foto
-
-    }
 }

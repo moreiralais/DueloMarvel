@@ -50,10 +50,18 @@ public class InicialActivity extends AppCompatActivity {
     private void loadJSON() {
         MarvelAPI marvelAPI = MarvelAPIInstance.getMarvelAPI();
 
+        /**
+         * String s="Texto de Exemplo";
+         MessageDigest m=MessageDigest.getInstance("MD5");
+         m.update(s.getBytes(),0,s.length());
+         System.out.println("MD5: "+new BigInteger(1,m.digest()).toString(16));
+         */
+
         String hash = "c21f277accb58bb9007a42df2039d446";
         String ts = "1475149059";
+        String limit = "50";
 
-        Call<JsonResponse> call = marvelAPI.getLista(ts,hash);
+        Call<JsonResponse> call = marvelAPI.getLista(ts,hash,limit);
 
         call.enqueue(new Callback<JsonResponse>() {
             @Override
