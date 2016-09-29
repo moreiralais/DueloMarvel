@@ -22,6 +22,7 @@ import br.com.lais.duelomarvel.modelo.ResultsResponse;
 public class TimesActivity extends AppCompatActivity {
 
     private ListaAdapter listaAdapter;
+    private ListaAdapter listaAdapterDois;
     private RecyclerView recyclerViewUm;
     private RecyclerView recyclerViewDois;
     private LinearLayoutManager layoutManager;
@@ -55,10 +56,10 @@ public class TimesActivity extends AppCompatActivity {
 
 
         layoutManager = new LinearLayoutManager(TimesActivity.this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         layoutManagerDois = new LinearLayoutManager(TimesActivity.this);
-        layoutManagerDois.setOrientation(LinearLayoutManager.HORIZONTAL);
+        layoutManagerDois.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerViewUm = (RecyclerView) findViewById(R.id.recycler_time_um);
         recyclerViewDois = (RecyclerView) findViewById(R.id.recycler_time_dois);
@@ -72,28 +73,24 @@ public class TimesActivity extends AppCompatActivity {
 
 
         listaAdapter = new ListaAdapter(getApplicationContext(),listaum);
+        recyclerViewUm.setAdapter(listaAdapter);
         listaAdapter.setRecyclerViewOnClickListener(new RecyclerViewOnClickListener() {
             @Override
             public void onClickListener(View view, int posicao) {
-
                 int itemPosition = recyclerViewUm.getChildLayoutPosition(view);
                 ResultsResponse personagem = data.get(itemPosition);
                 timeUmSelecionado.add(personagem);
 
                 //TODO pintar elemento selecionado para diferenciar
-
                 //TODO permitir deselecionar
-
-
-
 
             }
         });
-        recyclerViewUm.setAdapter(listaAdapter);
 
 
-        listaAdapter = new ListaAdapter(getApplicationContext(),listadois);
-        listaAdapter.setRecyclerViewOnClickListener(new RecyclerViewOnClickListener() {
+        listaAdapterDois = new ListaAdapter(getApplicationContext(),listadois);
+        recyclerViewDois.setAdapter(listaAdapterDois);
+        listaAdapterDois.setRecyclerViewOnClickListener(new RecyclerViewOnClickListener() {
             @Override
             public void onClickListener(View view, int posicao) {
                 int itemPosition = recyclerViewDois.getChildLayoutPosition(view);
@@ -101,7 +98,7 @@ public class TimesActivity extends AppCompatActivity {
                 timeDoisSelecionado.add(personagem);
             }
         });
-        recyclerViewDois.setAdapter(listaAdapter);
+
 
 
 
