@@ -20,14 +20,14 @@ import br.com.lais.duelomarvel.modelo.ResultsResponse;
 /**
  * Created by Lais on 29/09/2016.
  */
-public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolder>{
+public class ListaVencedorAdapter extends RecyclerView.Adapter<ListaVencedorAdapter.ViewHolder>{
 
     private List<ResultsResponse> resultsResponses;
     private Context contexto;
     private LayoutInflater layoutInflater;
     private RecyclerViewOnClickListener recyclerViewOnClickListener;
 
-    public ListaAdapter(Context contexto,List<ResultsResponse> resultsResponses) {
+    public ListaVencedorAdapter(Context contexto, List<ResultsResponse> resultsResponses) {
         this.resultsResponses = resultsResponses;
         this.contexto = contexto;
         layoutInflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -35,7 +35,7 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolder>{
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = layoutInflater.inflate(R.layout.card_time, viewGroup, false);
+        View view = layoutInflater.inflate(R.layout.card_time_vencedor, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -44,6 +44,7 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int i) {
 
         holder.nome_personagem.setText(resultsResponses.get(i).getName());
+        holder.descricao_personagem.setText(resultsResponses.get(i).getDescription());
 
         String foto = resultsResponses.get(i).getThumbnail().getPath()+"."+resultsResponses.get(i).getThumbnail().getExtension();
 
@@ -66,14 +67,14 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView nome_personagem;
+        private TextView nome_personagem,descricao_personagem;
         private ImageView foto_personagem;
 
         public ViewHolder(View view) {
             super(view);
 
             nome_personagem = (TextView)view.findViewById(R.id.nome_personagem);
-
+            descricao_personagem = (TextView)view.findViewById(R.id.descricao_personagem);
             foto_personagem = (ImageView)view.findViewById(R.id.foto_personagem);
 
             view.setOnClickListener(this);

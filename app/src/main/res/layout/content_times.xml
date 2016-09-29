@@ -12,32 +12,44 @@
     tools:context="br.com.lais.duelomarvel.activity.TimesActivity"
     tools:showIn="@layout/activity_times">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time um"
-        android:id="@+id/textoum"/>
+        android:layout_height="wrap_content">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_time_um"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time um"
+            android:id="@+id/textoum"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_time_um"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/textoum"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textoum"
-        />
-
+        android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time dois"
-        android:layout_below="@id/recycler_time_um"
         android:id="@+id/textodois"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_time_dois"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/textodois"
         />
+
+
+    </RelativeLayout>
+
 
 </LinearLayout>

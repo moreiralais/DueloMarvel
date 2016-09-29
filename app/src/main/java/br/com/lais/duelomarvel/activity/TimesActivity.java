@@ -9,9 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
-import java.util.AbstractList;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,10 @@ public class TimesActivity extends AppCompatActivity {
     private RecyclerView recyclerViewUm;
     private RecyclerView recyclerViewDois;
     private LinearLayoutManager layoutManager;
+    private LinearLayoutManager layoutManagerDois;
     private List<ResultsResponse> data;
+    private List<ResultsResponse> timeUmSelecionado;
+    private List<ResultsResponse> timeDoisSelecionado;
 
 
     @Override
@@ -36,8 +38,27 @@ public class TimesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        List<ResultsResponse> timeUm = (List<ResultsResponse>) getIntent().getSerializableExtra("timeUm");
+        List<ResultsResponse> timeDois = (List<ResultsResponse>) getIntent().getSerializableExtra("timeDois");
+
+        List<ResultsResponse> listaum = new ArrayList<>();
+        List<ResultsResponse> listadois = new ArrayList<>();
+
+        timeUmSelecionado = new ArrayList<>();
+        timeDoisSelecionado = new ArrayList<>();
+
+        if(timeUm!=null && timeDois!=null){
+            listaum = timeUm;
+            listadois = timeDois;
+        }
+
+
         layoutManager = new LinearLayoutManager(TimesActivity.this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        layoutManagerDois = new LinearLayoutManager(TimesActivity.this);
+        layoutManagerDois.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         recyclerViewUm = (RecyclerView) findViewById(R.id.recycler_time_um);
         recyclerViewDois = (RecyclerView) findViewById(R.id.recycler_time_dois);
@@ -46,30 +67,38 @@ public class TimesActivity extends AppCompatActivity {
         recyclerViewUm.setLayoutManager(layoutManager);
 
         recyclerViewDois.setHasFixedSize(true);
-        recyclerViewDois.setLayoutManager(layoutManager);
+        recyclerViewDois.setLayoutManager(layoutManagerDois);
 
 
-        ArrayList<ResultsResponse> listaum = null;
+
         listaAdapter = new ListaAdapter(getApplicationContext(),listaum);
         listaAdapter.setRecyclerViewOnClickListener(new RecyclerViewOnClickListener() {
             @Override
             public void onClickListener(View view, int posicao) {
 
                 int itemPosition = recyclerViewUm.getChildLayoutPosition(view);
-                ResultsResponse item = data.get(itemPosition);
+                ResultsResponse personagem = data.get(itemPosition);
+                timeUmSelecionado.add(personagem);
 
-                //TODO inserir item clicado na lista, calcular nivel poder salvar dados no banco exibir vencedoes com descricao e foto
+                //TODO pintar elemento selecionado para diferenciar
+
+                //TODO permitir deselecionar
+
+
+
 
             }
         });
         recyclerViewUm.setAdapter(listaAdapter);
 
-        ArrayList<ResultsResponse> listadois = null;
+
         listaAdapter = new ListaAdapter(getApplicationContext(),listadois);
         listaAdapter.setRecyclerViewOnClickListener(new RecyclerViewOnClickListener() {
             @Override
             public void onClickListener(View view, int posicao) {
-
+                int itemPosition = recyclerViewDois.getChildLayoutPosition(view);
+                ResultsResponse personagem = data.get(itemPosition);
+                timeDoisSelecionado.add(personagem);
             }
         });
         recyclerViewDois.setAdapter(listaAdapter);
@@ -80,8 +109,36 @@ public class TimesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+
+                //TODO salvar dados no banco
+
+                if (timeUmSelecionado.size()>0&&timeDoisSelecionado.size()>0){
+                    int nivelPoderTimeUm=0;
+                    int nivelPoderTimeDois=0;
+
+                    for(ResultsResponse r :timeUmSelecionado){
+                        nivelPoderTimeUm+=r.getStories().getAvailable();
+                    }
+
+                    for(ResultsResponse r :timeDoisSelecionado){
+                        nivelPoderTimeDois+=r.getStories().getAvailable();
+                    }
+
+                    Intent intent = new Intent(TimesActivity.this,ResultadoActivity.class);
+
+                    if (nivelPoderTimeUm>nivelPoderTimeDois){
+                        intent.putExtra("timevencedor", (ArrayList<ResultsResponse>) timeUmSelecionado);
+                        startActivity(intent);
+                    }else{
+                        intent.putExtra("timevencedor", (ArrayList<ResultsResponse>) timeDoisSelecionado);
+                        startActivity(intent);
+                    }
+
+                }else{
+                    Snackbar.make(view, "Você deve selecionar pelo menos um personagem para cada time", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
     }

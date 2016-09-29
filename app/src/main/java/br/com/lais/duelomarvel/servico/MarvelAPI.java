@@ -13,5 +13,5 @@ public interface MarvelAPI {
     String ENDPOINT = "http://gateway.marvel.com";
 
     @GET("/v1/public/characters?apikey=fcf6688c1ba1b7803f228c5b8daa4fbd")
-    Call<JsonResponse> getLista(@Query("ts") String ts, @Query("hash") String hash,@Query("limit") String limit);
+    Call<JsonResponse> getLista(@Query("ts") String ts, @Query("hash") String hash,@Query("limit") String limit,@Query("offset") String offset);
 }

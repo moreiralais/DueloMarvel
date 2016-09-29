@@ -1,5 +1,6 @@
 package br.com.lais.duelomarvel.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,11 @@ import retrofit2.Response;
 public class InicialActivity extends AppCompatActivity {
 
     private ArrayList<ResultsResponse> resultados;
+    String offset = "0";
+    List<ResultsResponse> listaComDescricoes = new ArrayList<>();
+
+    List<ResultsResponse> timeUm = new ArrayList<>();
+    List<ResultsResponse> timeDois = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +41,22 @@ public class InicialActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        listaComDescricoes = new ArrayList<>();
+
         FloatingActionButton btniniciar = (FloatingActionButton) findViewById(R.id.btniniciar);
         btniniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                loadJSON();
+                loadJSON(offset);
 
 
             }
         });
     }
 
-    private void loadJSON() {
+    private void loadJSON(String offset) {
         MarvelAPI marvelAPI = MarvelAPIInstance.getMarvelAPI();
 
         /**
@@ -55,13 +64,25 @@ public class InicialActivity extends AppCompatActivity {
          MessageDigest m=MessageDigest.getInstance("MD5");
          m.update(s.getBytes(),0,s.length());
          System.out.println("MD5: "+new BigInteger(1,m.digest()).toString(16));
+
+         public key
+
+         fcf6688c1ba1b7803f228c5b8daa4fbd
+
+         private key
+
+         dbb02236c60329a1bf628e6d690a700ae67ae1f8
+
+         ts + PrivateKey + publickey
          */
 
         String hash = "c21f277accb58bb9007a42df2039d446";
         String ts = "1475149059";
-        String limit = "50";
+        String limit = "100";
 
-        Call<JsonResponse> call = marvelAPI.getLista(ts,hash,limit);
+
+        Call<JsonResponse> call = marvelAPI.getLista(ts,hash,limit,offset);
+        Call<JsonResponse> call2 = marvelAPI.getLista(ts,hash,limit,offset+1);
 
         call.enqueue(new Callback<JsonResponse>() {
             @Override
@@ -69,30 +90,7 @@ public class InicialActivity extends AppCompatActivity {
 
                 JsonResponse jsonResponse = response.body();
 
-
-
-                resultados = new ArrayList<>(Arrays.asList(jsonResponse.getData().getResults()));
-
-                Log.i("LOG-LAIS",resultados.get(0).getName());
-
-
-                List<ResultsResponse> listaComDescricoes = new ArrayList<>();
-                List<ResultsResponse> timeUm = new ArrayList<>();
-                List<ResultsResponse> timeDois = new ArrayList<>();
-
-                for(ResultsResponse r :resultados){
-                    if(!r.getDescription().isEmpty()){
-                        listaComDescricoes.add(r);
-                    }
-                }
-
-                for(int i=0;i<10;i++){
-                    timeUm.add(listaComDescricoes.get(i));
-                    timeDois.add(listaComDescricoes.get(i+10));
-                }
-
-//TODO enviar lista para activity times
-
+                tratarRetornoCallback(jsonResponse);
 
             }
 
@@ -101,6 +99,43 @@ public class InicialActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void tratarRetornoCallback(JsonResponse jsonResponse) {
+        resultados = new ArrayList<>(Arrays.asList(jsonResponse.getData().getResults()));
+
+        Log.i("LOG-LAIS", "Tratando retorno Callback");
+
+
+        for(ResultsResponse r :resultados){
+            if(!r.getDescription().isEmpty()){
+                listaComDescricoes.add(r);
+            }
+        }
+
+        if(listaComDescricoes.size()<20){
+            Log.i("LOG-LAIS", "Lista com descricoes menos que 20");
+            offset+=1;
+            loadJSON(offset);
+        }else {
+
+            timeUm = new ArrayList<>();
+            timeDois = new ArrayList<>();
+            Log.i("LOG-LAIS", " TAMANHO COM DESCRICAO " + listaComDescricoes.size());
+
+            for (int i = 0; i < 10; i++) {
+                timeUm.add(listaComDescricoes.get(i));
+                timeDois.add(listaComDescricoes.get(i + 10));
+            }
+
+            Intent intent = new Intent(InicialActivity.this, TimesActivity.class);
+
+            intent.putExtra("timeUm", (ArrayList<ResultsResponse>) timeUm);
+            intent.putExtra("timeDois", (ArrayList<ResultsResponse>) timeDois);
+
+
+            startActivity(intent);
+        }
     }
 
 

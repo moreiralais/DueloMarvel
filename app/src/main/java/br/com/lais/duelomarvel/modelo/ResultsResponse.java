@@ -1,9 +1,11 @@
 package br.com.lais.duelomarvel.modelo;
 
+import java.io.Serializable;
+
 /**
  * Created by Lais on 29/09/2016.
  */
-public class ResultsResponse {
+public class ResultsResponse implements Serializable{
 
     String name;
     String description;
