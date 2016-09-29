@@ -27,7 +27,6 @@ public class TimesActivity extends AppCompatActivity {
     private RecyclerView recyclerViewDois;
     private LinearLayoutManager layoutManager;
     private LinearLayoutManager layoutManagerDois;
-    private List<ResultsResponse> data;
     private List<ResultsResponse> timeUmSelecionado;
     private List<ResultsResponse> timeDoisSelecionado;
 
@@ -40,8 +39,8 @@ public class TimesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        List<ResultsResponse> timeUm = (List<ResultsResponse>) getIntent().getSerializableExtra("timeUm");
-        List<ResultsResponse> timeDois = (List<ResultsResponse>) getIntent().getSerializableExtra("timeDois");
+        final List<ResultsResponse> timeUm = (List<ResultsResponse>) getIntent().getSerializableExtra("timeUm");
+        final List<ResultsResponse> timeDois = (List<ResultsResponse>) getIntent().getSerializableExtra("timeDois");
 
         List<ResultsResponse> listaum = new ArrayList<>();
         List<ResultsResponse> listadois = new ArrayList<>();
@@ -78,7 +77,7 @@ public class TimesActivity extends AppCompatActivity {
             @Override
             public void onClickListener(View view, int posicao) {
                 int itemPosition = recyclerViewUm.getChildLayoutPosition(view);
-                ResultsResponse personagem = data.get(itemPosition);
+                ResultsResponse personagem = timeUm.get(itemPosition);
                 timeUmSelecionado.add(personagem);
 
                 //TODO pintar elemento selecionado para diferenciar
@@ -94,7 +93,7 @@ public class TimesActivity extends AppCompatActivity {
             @Override
             public void onClickListener(View view, int posicao) {
                 int itemPosition = recyclerViewDois.getChildLayoutPosition(view);
-                ResultsResponse personagem = data.get(itemPosition);
+                ResultsResponse personagem = timeDois.get(itemPosition);
                 timeDoisSelecionado.add(personagem);
             }
         });
