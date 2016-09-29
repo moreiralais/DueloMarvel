@@ -11,11 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.lais.duelomarvel.R;
 import br.com.lais.duelomarvel.adapter.ListaAdapter;
+import br.com.lais.duelomarvel.dao.DueloDAO;
 import br.com.lais.duelomarvel.listener.RecyclerViewOnClickListener;
 import br.com.lais.duelomarvel.modelo.ResultsResponse;
 
@@ -106,37 +108,43 @@ public class TimesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-                //TODO salvar dados no banco
-
-                if (timeUmSelecionado.size()>0&&timeDoisSelecionado.size()>0){
-                    int nivelPoderTimeUm=0;
-                    int nivelPoderTimeDois=0;
-
-                    for(ResultsResponse r :timeUmSelecionado){
-                        nivelPoderTimeUm+=r.getStories().getAvailable();
-                    }
-
-                    for(ResultsResponse r :timeDoisSelecionado){
-                        nivelPoderTimeDois+=r.getStories().getAvailable();
-                    }
-
-                    Intent intent = new Intent(TimesActivity.this,ResultadoActivity.class);
-
-                    if (nivelPoderTimeUm>nivelPoderTimeDois){
-                        intent.putExtra("timevencedor", (ArrayList<ResultsResponse>) timeUmSelecionado);
-                        startActivity(intent);
-                    }else{
-                        intent.putExtra("timevencedor", (ArrayList<ResultsResponse>) timeDoisSelecionado);
-                        startActivity(intent);
-                    }
-
-                }else{
-                    Snackbar.make(view, "Você deve selecionar pelo menos um personagem para cada time", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
+                compararNivelPoder(view);
             }
         });
+    }
+
+    private void compararNivelPoder(View view) {
+        if (timeUmSelecionado.size()>0&&timeDoisSelecionado.size()>0){
+            int nivelPoderTimeUm=0;
+            int nivelPoderTimeDois=0;
+
+            for(ResultsResponse r :timeUmSelecionado){
+                nivelPoderTimeUm+=r.getStories().getAvailable();
+            }
+
+            for(ResultsResponse r :timeDoisSelecionado){
+                nivelPoderTimeDois+=r.getStories().getAvailable();
+            }
+
+            Intent intent = new Intent(TimesActivity.this,ResultadoActivity.class);
+            DueloDAO dao = new DueloDAO(TimesActivity.this);
+
+            if (nivelPoderTimeUm>nivelPoderTimeDois){
+                intent.putExtra("timevencedor", (ArrayList<ResultsResponse>) timeUmSelecionado);
+                dao.inserir(timeUmSelecionado,timeDoisSelecionado);
+                startActivity(intent);
+            }else{
+                intent.putExtra("timevencedor", (ArrayList<ResultsResponse>) timeDoisSelecionado);
+                dao.inserir(timeDoisSelecionado,timeUmSelecionado);
+                startActivity(intent);
+            }
+
+            dao.close();
+
+        }else{
+            Snackbar.make(view, "Você deve selecionar pelo menos um personagem para cada time", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
     }
 
 
