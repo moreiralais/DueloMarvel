@@ -25,6 +25,10 @@
         android:layout_gravity="bottom|end"
         android:id="@+id/btniniciar"
         android:layout_margin="@dimen/fab_margin"
-        android:text="Iniciar Jogo" />
+        android:text="Iniciar Jogo"
+        android:background="#000000"
+        android:textColor="#ffffff"
+        android:padding="15dp"
+        android:textStyle="bold|italic" />
 
 </android.support.design.widget.CoordinatorLayout>

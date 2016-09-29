@@ -29,7 +29,8 @@
         <activity
             android:name=".activity.ResultadoActivity"
             android:label="@string/title_activity_resultado"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

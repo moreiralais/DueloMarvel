@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 
 import java.io.Serializable;
 import java.sql.Time;
@@ -37,8 +38,6 @@ public class TimesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_times);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
 
         final List<ResultsResponse> timeUm = (List<ResultsResponse>) getIntent().getSerializableExtra("timeUm");
@@ -103,7 +102,7 @@ public class TimesActivity extends AppCompatActivity {
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.duelar);
+        Button fab = (Button) findViewById(R.id.duelar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

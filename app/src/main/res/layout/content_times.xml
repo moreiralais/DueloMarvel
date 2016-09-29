@@ -19,8 +19,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Time um"
-            android:id="@+id/textoum"/>
+            android:text="Selecione o Time 1:"
+            android:textStyle="bold|italic"
+            android:id="@+id/textoum"
+            android:layout_marginBottom="15dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_time_um"
@@ -32,21 +34,36 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/imagem_vs"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time dois"
-        android:id="@+id/textodois"/>
+        android:text="Selecione o Time 2:"
+        android:textStyle="bold|italic"
+        android:id="@+id/textodois"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_time_dois"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@id/textodois"
-        />
+        android:layout_alignParentRight="true" />
 
 
     </RelativeLayout>
