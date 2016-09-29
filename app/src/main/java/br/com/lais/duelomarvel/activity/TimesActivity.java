@@ -113,6 +113,13 @@ public class TimesActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        timeUmSelecionado.clear();
+        timeDoisSelecionado.clear();
+    }
+
     private void compararNivelPoder(View view) {
         if (timeUmSelecionado.size()>0&&timeDoisSelecionado.size()>0){
             int nivelPoderTimeUm=0;

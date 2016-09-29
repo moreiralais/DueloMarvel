@@ -12,10 +12,6 @@
     tools:context=".activity.InicialActivity"
     tools:showIn="@layout/activity_inicial">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clique para iniciar" />
 
 
 </RelativeLayout>
