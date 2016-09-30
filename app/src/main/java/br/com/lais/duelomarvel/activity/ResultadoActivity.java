@@ -1,5 +1,6 @@
 package br.com.lais.duelomarvel.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -53,12 +54,12 @@ public class ResultadoActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(listaAdapter);
 
-        Button fab = (Button) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button btnnovoduelo = (Button) findViewById(R.id.btnnovoduelo);
+        btnnovoduelo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(ResultadoActivity.this,InicialActivity.class);
+                startActivity(intent);
             }
         });
     }
