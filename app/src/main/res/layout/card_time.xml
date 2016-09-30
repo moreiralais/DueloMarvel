@@ -19,7 +19,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:textSize="18sp"
-            android:layout_width="200dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="#000000"/>
@@ -29,10 +29,9 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/foto_personagem"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/nome_personagem"
             android:layout_height="55dp"
-            android:layout_width="55dp"
-            android:layout_gravity="left" />
+            android:layout_width="55dp"/>
 
 
 
