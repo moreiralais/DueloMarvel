@@ -13,15 +13,20 @@
     tools:showIn="@layout/activity_resultado">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Time vencedor"
-        android:id="@+id/time_vencedor"/>
+        android:textColor="#ff0000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:id="@+id/time_vencedor"
+        android:gravity="center_horizontal" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_time_vencedor"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/time_vencedor"/>
+        android:layout_below="@id/time_vencedor"
+        android:layout_marginTop="15dp" />
 
 </RelativeLayout>
