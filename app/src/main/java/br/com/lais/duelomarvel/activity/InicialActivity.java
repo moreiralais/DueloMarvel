@@ -57,6 +57,7 @@ public class InicialActivity extends AppCompatActivity {
     private void loadJSON(String offset) {
         MarvelAPI marvelAPI = MarvelAPIInstance.getMarvelAPI();
 
+        //TODO arquivo de config
         /**
          * String s="Texto de Exemplo";
          MessageDigest m=MessageDigest.getInstance("MD5");
@@ -80,7 +81,6 @@ public class InicialActivity extends AppCompatActivity {
 
 
         Call<JsonResponse> call = marvelAPI.getLista(ts,hash,limit,offset);
-        Call<JsonResponse> call2 = marvelAPI.getLista(ts,hash,limit,offset+1);
 
         call.enqueue(new Callback<JsonResponse>() {
             @Override

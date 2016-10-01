@@ -79,10 +79,14 @@ public class TimesActivity extends AppCompatActivity {
             public void onClickListener(View view, int posicao) {
                 int itemPosition = recyclerViewUm.getChildLayoutPosition(view);
                 ResultsResponse personagem = timeUm.get(itemPosition);
-                timeUmSelecionado.add(personagem);
 
-                //TODO pintar elemento selecionado para diferenciar
-                //TODO permitir deselecionar
+                if(timeUmSelecionado.contains(personagem)){
+                    timeUmSelecionado.remove(personagem);
+                    view.setBackgroundColor(getResources().getColor(R.color.White));
+                }else {
+                    timeUmSelecionado.add(personagem);
+                    view.setBackgroundColor(getResources().getColor(R.color.OrangeRed));
+                }
 
             }
         });
@@ -95,7 +99,15 @@ public class TimesActivity extends AppCompatActivity {
             public void onClickListener(View view, int posicao) {
                 int itemPosition = recyclerViewDois.getChildLayoutPosition(view);
                 ResultsResponse personagem = timeDois.get(itemPosition);
-                timeDoisSelecionado.add(personagem);
+
+                if(timeDoisSelecionado.contains(personagem)){
+                    timeDoisSelecionado.remove(personagem);
+                    view.setBackgroundColor(getResources().getColor(R.color.White));
+                }else {
+                    timeDoisSelecionado.add(personagem);
+                    view.setBackgroundColor(getResources().getColor(R.color.OrangeRed));
+                }
+
             }
         });
 
