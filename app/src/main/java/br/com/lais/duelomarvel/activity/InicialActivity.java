@@ -49,7 +49,7 @@ public class InicialActivity extends AppCompatActivity {
         btniniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO exibir loading
+                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
                 loadJSON(offset);
             }
         });
@@ -81,6 +81,7 @@ public class InicialActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonResponse> call, Throwable t) {
+                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                 Toast.makeText(InicialActivity.this,"Erro interno. Por favor tente mais tarde.",Toast.LENGTH_LONG).show();
             }
         });
@@ -100,7 +101,7 @@ public class InicialActivity extends AppCompatActivity {
             offset+=1;
             loadJSON(offset);
         }else {
-            //TODO retirar loading
+            findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             timeUm = new ArrayList<>();
             timeDois = new ArrayList<>();
             Log.i("LOG-LAIS", " TAMANHO COM DESCRICAO " + listaComDescricoes.size());
