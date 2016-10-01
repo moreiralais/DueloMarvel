@@ -14,9 +14,9 @@ import java.util.List;
 
 import br.com.lais.duelomarvel.R;
 import br.com.lais.duelomarvel.adapter.ListaAdapter;
-import br.com.lais.duelomarvel.dao.DueloDAO;
 import br.com.lais.duelomarvel.listener.RecyclerViewOnClickListener;
 import br.com.lais.duelomarvel.modelo.ResultsResponse;
+import br.com.lais.duelomarvel.servico.DueloService;
 
 public class TimesActivity extends AppCompatActivity {
 
@@ -28,6 +28,7 @@ public class TimesActivity extends AppCompatActivity {
     private LinearLayoutManager layoutManagerDois;
     private List<ResultsResponse> timeUmSelecionado;
     private List<ResultsResponse> timeDoisSelecionado;
+    private DueloService dueloService;
 
 
     @Override
@@ -134,21 +135,18 @@ public class TimesActivity extends AppCompatActivity {
             }
 
             Intent intent = new Intent(TimesActivity.this,ResultadoActivity.class);
-            DueloDAO dao = new DueloDAO(TimesActivity.this);
 
-            //TODO criar service para acessar dao
+            dueloService = new DueloService(TimesActivity.this);
 
             if (nivelPoderTimeUm>nivelPoderTimeDois){
                 intent.putExtra("timevencedor", (ArrayList<ResultsResponse>) timeUmSelecionado);
-                dao.inserir(timeUmSelecionado,timeDoisSelecionado);
+                dueloService.inserir(timeUmSelecionado,timeDoisSelecionado);
                 startActivity(intent);
             }else{
                 intent.putExtra("timevencedor", (ArrayList<ResultsResponse>) timeDoisSelecionado);
-                dao.inserir(timeDoisSelecionado,timeUmSelecionado);
+                dueloService.inserir(timeDoisSelecionado,timeUmSelecionado);
                 startActivity(intent);
             }
-
-            dao.close();
 
         }else{
             Snackbar.make(view, "Você deve selecionar pelo menos um personagem para cada time", Snackbar.LENGTH_LONG)
