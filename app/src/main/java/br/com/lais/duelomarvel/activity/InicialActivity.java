@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +24,7 @@ import br.com.lais.duelomarvel.modelo.JsonResponse;
 import br.com.lais.duelomarvel.modelo.ResultsResponse;
 import br.com.lais.duelomarvel.servico.MarvelAPI;
 import br.com.lais.duelomarvel.servico.MarvelAPIInstance;
+import br.com.lais.duelomarvel.util.DueloUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,16 +43,14 @@ public class InicialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicial);
 
-
         listaComDescricoes = new ArrayList<>();
 
         Button btniniciar = (Button) findViewById(R.id.btniniciar);
         btniniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO exibir loading
                 loadJSON(offset);
-
-
             }
         });
     }
@@ -57,53 +58,36 @@ public class InicialActivity extends AppCompatActivity {
     private void loadJSON(String offset) {
         MarvelAPI marvelAPI = MarvelAPIInstance.getMarvelAPI();
 
-        //TODO arquivo de config
-        /**
-         * String s="Texto de Exemplo";
-         MessageDigest m=MessageDigest.getInstance("MD5");
-         m.update(s.getBytes(),0,s.length());
-         System.out.println("MD5: "+new BigInteger(1,m.digest()).toString(16));
+        DueloUtil util = new DueloUtil();
 
-         public key
+        /*
+        String hash =  util.getHash();
+        String ts = util.getTs();
+        String limit = util.getLimit();
+        */
 
-         fcf6688c1ba1b7803f228c5b8daa4fbd
-
-         private key
-
-         dbb02236c60329a1bf628e6d690a700ae67ae1f8
-
-         ts + PrivateKey + publickey
-         */
-
-        String hash = "c21f277accb58bb9007a42df2039d446";
+        String hash =  "c21f277accb58bb9007a42df2039d446";
         String ts = "1475149059";
         String limit = "100";
-
 
         Call<JsonResponse> call = marvelAPI.getLista(ts,hash,limit,offset);
 
         call.enqueue(new Callback<JsonResponse>() {
             @Override
             public void onResponse(Call<JsonResponse> call, Response<JsonResponse> response) {
-
                 JsonResponse jsonResponse = response.body();
-
                 tratarRetornoCallback(jsonResponse);
-
             }
 
             @Override
             public void onFailure(Call<JsonResponse> call, Throwable t) {
-
+                Toast.makeText(InicialActivity.this,"Erro interno. Por favor tente mais tarde.",Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void tratarRetornoCallback(JsonResponse jsonResponse) {
         resultados = new ArrayList<>(Arrays.asList(jsonResponse.getData().getResults()));
-
-        Log.i("LOG-LAIS", "Tratando retorno Callback");
-
 
         for(ResultsResponse r :resultados){
             if(!r.getDescription().isEmpty()){
@@ -116,7 +100,7 @@ public class InicialActivity extends AppCompatActivity {
             offset+=1;
             loadJSON(offset);
         }else {
-
+            //TODO retirar loading
             timeUm = new ArrayList<>();
             timeDois = new ArrayList<>();
             Log.i("LOG-LAIS", " TAMANHO COM DESCRICAO " + listaComDescricoes.size());
@@ -127,15 +111,11 @@ public class InicialActivity extends AppCompatActivity {
             }
 
             Intent intent = new Intent(InicialActivity.this, TimesActivity.class);
-
             intent.putExtra("timeUm", (ArrayList<ResultsResponse>) timeUm);
             intent.putExtra("timeDois", (ArrayList<ResultsResponse>) timeDois);
-
-
             startActivity(intent);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

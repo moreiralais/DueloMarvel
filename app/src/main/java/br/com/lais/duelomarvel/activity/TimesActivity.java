@@ -2,17 +2,13 @@ package br.com.lais.duelomarvel.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.Serializable;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +35,6 @@ public class TimesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_times);
 
-
         final List<ResultsResponse> timeUm = (List<ResultsResponse>) getIntent().getSerializableExtra("timeUm");
         final List<ResultsResponse> timeDois = (List<ResultsResponse>) getIntent().getSerializableExtra("timeDois");
 
@@ -53,7 +48,6 @@ public class TimesActivity extends AppCompatActivity {
             listaum = timeUm;
             listadois = timeDois;
         }
-
 
         layoutManager = new LinearLayoutManager(TimesActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -69,8 +63,6 @@ public class TimesActivity extends AppCompatActivity {
 
         recyclerViewDois.setHasFixedSize(true);
         recyclerViewDois.setLayoutManager(layoutManagerDois);
-
-
 
         listaAdapter = new ListaAdapter(getApplicationContext(),listaum);
         recyclerViewUm.setAdapter(listaAdapter);
@@ -111,14 +103,10 @@ public class TimesActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         Button fab = (Button) findViewById(R.id.duelar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 compararNivelPoder(view);
             }
         });
@@ -129,6 +117,7 @@ public class TimesActivity extends AppCompatActivity {
         super.onResume();
         timeUmSelecionado.clear();
         timeDoisSelecionado.clear();
+        //TODO limpar cores recycle view
     }
 
     private void compararNivelPoder(View view) {
@@ -146,6 +135,8 @@ public class TimesActivity extends AppCompatActivity {
 
             Intent intent = new Intent(TimesActivity.this,ResultadoActivity.class);
             DueloDAO dao = new DueloDAO(TimesActivity.this);
+
+            //TODO criar service para acessar dao
 
             if (nivelPoderTimeUm>nivelPoderTimeDois){
                 intent.putExtra("timevencedor", (ArrayList<ResultsResponse>) timeUmSelecionado);
