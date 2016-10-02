@@ -58,17 +58,19 @@ public class InicialActivity extends AppCompatActivity {
     private void loadJSON(String offset) {
         MarvelAPI marvelAPI = MarvelAPIInstance.getMarvelAPI();
 
-        DueloUtil util = new DueloUtil();
+        DueloUtil util = new DueloUtil(InicialActivity.this);
 
-        /*
+
         String hash =  util.getHash();
         String ts = util.getTs();
         String limit = util.getLimit();
-        */
 
+
+        /*
         String hash =  "c21f277accb58bb9007a42df2039d446";
         String ts = "1475149059";
         String limit = "100";
+        */
 
         Call<JsonResponse> call = marvelAPI.getLista(ts,hash,limit,offset);
 
