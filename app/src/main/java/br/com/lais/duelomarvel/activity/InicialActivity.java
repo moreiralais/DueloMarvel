@@ -1,20 +1,16 @@
 package br.com.lais.duelomarvel.activity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,7 +81,9 @@ public class InicialActivity extends AppCompatActivity {
 
         for(ResultsResponse r :resultados){
             if(!r.getDescription().isEmpty()){
-                listaComDescricoes.add(r);
+                if(!listaComDescricoes.contains(r)){
+                    listaComDescricoes.add(r);
+                }
             }
         }
 
@@ -131,5 +129,33 @@ public class InicialActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            MediaPlayer mp = new MediaPlayer();
+
+            Log.i("LOG-LAIS","Entrou no onresume");
+
+            String path = "/music/MarvelMusic.mp3";
+
+            mp.reset();
+            mp.setDataSource(path);
+            mp.prepare();
+            mp.start();
+
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer arg0) {
+                    Log.i("LOG-LAIS","Acabou a musica");
+
+                }
+            });
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
     }
 }

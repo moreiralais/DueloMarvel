@@ -1,0 +1,34 @@
+target/
+*.war
+*.jar
+*.class
+*.orig
+*~
+*.orig
+*.swp
+*.swo
+*.swn
+*.swm
+*.project
+*.classpath
+*.log
+*.iml
+web-app/WEB-INF/classes/*
+.idea/*
+build/* 
+build
+build/intermediates/dex-cache/cache.xml
+build/
+.gradle/*
+.gradle/
+.settings/*
+local.properties
+classes
+*.project
+
+
+<<<<<<< HEAD
+/.nb-gradle/
+=======
+/.nb-gradle/
+>>>>>>> 1316ddaae4c004bd52ded29a1bada0205d0a9243
