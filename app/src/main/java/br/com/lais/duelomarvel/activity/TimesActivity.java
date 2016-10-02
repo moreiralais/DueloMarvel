@@ -29,6 +29,7 @@ public class TimesActivity extends AppCompatActivity {
     private List<ResultsResponse> timeUmSelecionado;
     private List<ResultsResponse> timeDoisSelecionado;
     private DueloService dueloService;
+    private List<View> listaViewSelecionado;
 
 
     @Override
@@ -44,6 +45,7 @@ public class TimesActivity extends AppCompatActivity {
 
         timeUmSelecionado = new ArrayList<>();
         timeDoisSelecionado = new ArrayList<>();
+        listaViewSelecionado = new ArrayList<>();
 
         if(timeUm!=null && timeDois!=null){
             listaum = timeUm;
@@ -76,8 +78,10 @@ public class TimesActivity extends AppCompatActivity {
                 if(timeUmSelecionado.contains(personagem)){
                     timeUmSelecionado.remove(personagem);
                     view.setBackgroundColor(getResources().getColor(R.color.White));
+                    listaViewSelecionado.remove(view);
                 }else {
                     timeUmSelecionado.add(personagem);
+                    listaViewSelecionado.add(view);
                     view.setBackgroundColor(getResources().getColor(R.color.OrangeRed));
                 }
 
@@ -95,9 +99,11 @@ public class TimesActivity extends AppCompatActivity {
 
                 if(timeDoisSelecionado.contains(personagem)){
                     timeDoisSelecionado.remove(personagem);
+                    listaViewSelecionado.remove(view);
                     view.setBackgroundColor(getResources().getColor(R.color.White));
                 }else {
                     timeDoisSelecionado.add(personagem);
+                    listaViewSelecionado.add(view);
                     view.setBackgroundColor(getResources().getColor(R.color.OrangeRed));
                 }
 
@@ -118,7 +124,10 @@ public class TimesActivity extends AppCompatActivity {
         super.onResume();
         timeUmSelecionado.clear();
         timeDoisSelecionado.clear();
-        //TODO limpar cores recycle view
+        for(View v:listaViewSelecionado){
+            v.setBackgroundColor(getResources().getColor(R.color.White));
+        }
+
     }
 
     private void compararNivelPoder(View view) {
