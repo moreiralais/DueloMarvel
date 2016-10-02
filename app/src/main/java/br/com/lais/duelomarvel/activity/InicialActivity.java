@@ -33,6 +33,7 @@ public class InicialActivity extends AppCompatActivity {
 
     List<ResultsResponse> timeUm = new ArrayList<>();
     List<ResultsResponse> timeDois = new ArrayList<>();
+    MediaPlayer myMediaPlayer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,8 @@ public class InicialActivity extends AppCompatActivity {
                 timeDois.add(listaComDescricoes.get(i + 10));
             }
 
+            myMediaPlayer.pause();
+
             Intent intent = new Intent(InicialActivity.this, TimesActivity.class);
             intent.putExtra("timeUm", (ArrayList<ResultsResponse>) timeUm);
             intent.putExtra("timeDois", (ArrayList<ResultsResponse>) timeDois);
@@ -135,18 +138,13 @@ public class InicialActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         try {
-            MediaPlayer mp = new MediaPlayer();
+            myMediaPlayer = MediaPlayer.create(InicialActivity.this, R.raw.marvelmusic);
 
             Log.i("LOG-LAIS","Entrou no onresume");
 
-            String path = "/music/MarvelMusic.mp3";
+            myMediaPlayer.start();
 
-            mp.reset();
-            mp.setDataSource(path);
-            mp.prepare();
-            mp.start();
-
-            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            myMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 public void onCompletion(MediaPlayer arg0) {
                     Log.i("LOG-LAIS","Acabou a musica");
 
